@@ -68,6 +68,18 @@ var SwipeoutBtn = React.createClass({
 
 var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
+, initLayoutData: function( event ) {
+    var width = event.nativeEvent.layout.width;
+    var height = event.nativeEvent.layout.height;
+
+    this.setState({
+      btnWidth: (width/5),
+      btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
+      btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
+      contentHeight: height,
+      contentWidth: width,
+    })
+  }
 , getDefaultProps: function() {
     return {
       onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
@@ -101,7 +113,13 @@ var Swipeout = React.createClass({
     });
   }
 , componentWillReceiveProps: function(nextProps) {
-    if (nextProps.close) this._close()
+    if (nextProps.close) this._close();
+
+    if(nextProps.open){
+      this._openRight();
+    }else{
+      this._close();
+    }
   }
 , _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
     return true;
@@ -206,6 +224,12 @@ var Swipeout = React.createClass({
     var onPress = btn.onPress
     if (onPress) onPress()
     if (this.state.autoClose) this._close()
+  }
+, _openRight: function() { 
+    var btnsRightWidth =  this.state.btnsRightWidth;
+
+    this._tweenContent('contentPos', -btnsRightWidth)
+    this.setState({ contentPos: -btnsRightWidth, openedLeft: false, openedRight: true })
   }
 , _close: function() {
     this._tweenContent('contentPos', 0)
