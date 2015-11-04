@@ -280,7 +280,7 @@ var Swipeout = React.createClass({
     styleLeft.push(styleLeftPos.left)
 
     return (
-      <View style={styleSwipeout}>
+      <View style={styleSwipeout} onLayout={this.initLayoutData}>
         <View ref="swipeoutContent" style={styleContent} {...self._panResponder.panHandlers}>
           {self.props.children}
         </View>
