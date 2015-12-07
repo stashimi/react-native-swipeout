@@ -82,7 +82,7 @@ var Swipeout = React.createClass({
   }
 , getDefaultProps: function() {
     return {
-      onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
+      onOpen: function(sectionID, rowID) {},
       rowID: -1,
       sectionID: -1,
     }
@@ -169,7 +169,7 @@ var Swipeout = React.createClass({
     var btnsRightWidth = this.state.btnsRightWidth
 
     //  minimum threshold to open swipeout
-    var openX = contentWidth*0.33
+    var openX = contentWidth/**0.33*/
 
     //  should open swipeout
     var openLeft = posX > openX || posX > btnsLeftWidth/2
